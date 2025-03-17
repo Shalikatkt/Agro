@@ -108,11 +108,17 @@ export default function Navbar() {
             <Link href="/blog" className="block py-2 hover:text-green-200">
               Blog
             </Link>
+            <Link href="/calculator" className="block py-2 hover:text-green-200">
+              Date Calculater
+            </Link>
             <Link href="/contact" className="block py-2 hover:text-green-200">
               Contact Us
             </Link>
             <Link href="/register" className="block py-2 hover:text-green-200">
               Register
+            </Link>
+            <Link href="/register" className="block py-2 hover:text-green-200">
+              Login
             </Link>
             
           </div>
