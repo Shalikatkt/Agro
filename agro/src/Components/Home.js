@@ -65,40 +65,60 @@ export default function Home() {
     {
       title: "Plant Tracking",
       description: "Monitor growth, watering schedules, and health of your plants",
-      icon: "🌱"
+      icon: "🌱",
+      color: "bg-emerald-50",
+      textColor: "text-emerald-800",
+      borderColor: "border-emerald-200"
     },
     {
       title: "Seasonal Calendar",
       description: "Know when to plant, prune, and harvest based on your location",
-      icon: "🗓️"
+      icon: "🗓️",
+      color: "bg-amber-50",
+      textColor: "text-amber-800",
+      borderColor: "border-amber-200"
     },
     {
       title: "Community Exchange",
       description: "Share seeds, cuttings, and knowledge with local gardeners",
-      icon: "🤝"
+      icon: "🤝",
+      color: "bg-blue-50",
+      textColor: "text-blue-800",
+      borderColor: "border-blue-200"
     },
     {
       title: "Expert Advice",
       description: "Get personalized tips from horticulture professionals",
-      icon: "👩‍🌾"
+      icon: "👩‍🌾",
+      color: "bg-purple-50",
+      textColor: "text-purple-800",
+      borderColor: "border-purple-200"
     }
   ];
 
   return (
-    <div>
+    <div className="font-sans">
+      <Head>
+        <title>Agro - Your Gardening Companion</title>
+        <meta name="description" content="Transform your gardening experience with Agro" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       {/* Hero Section with Sliding Gallery */}
       <div className="relative">
-        <div className="relative h-96 md:h-screen max-h-screen overflow-hidden">
+        <div className="relative h-[80vh] md:h-screen max-h-screen overflow-hidden">
           {/* Gallery slides */}
           <div className="h-full relative">
             {galleryItems.map((item, index) => (
               <div 
                 key={item.id}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                className={`absolute inset-0 transition-all duration-1000 ${
+                  index === currentSlide 
+                    ? 'opacity-100 transform scale-100' 
+                    : 'opacity-0 transform scale-105 pointer-events-none'
                 }`}
               >
-                {/* Gallery Images */}
+                {/* Gallery Images with overlay */}
                 <div className="absolute inset-0 bg-cover bg-center bg-no-repeat">
                   <Image
                     src={item.image}
@@ -106,31 +126,36 @@ export default function Home() {
                     layout="fill"
                     objectFit="cover"
                     className="object-cover"
+                    priority={index === 0}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
                 </div>
                 
                 {/* Content overlay */}
-                <div className="absolute inset-0 bg-opacity-40 flex items-center">
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-                    
-                    <h2 className="text-4xl md:text-6xl font-bold mb-4">{item.title}</h2>
-                    <p className="text-xl md:text-2xl mb-8">{item.description}</p>
-                    <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium text-lg">
-                      Learn More
-                    </button>
+                <div className="absolute inset-0 flex items-center">
+                  <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-white">
+                    <div className="max-w-2xl">
+                      <h2 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-md">{item.title}</h2>
+                      <p className="text-xl md:text-2xl mb-8 drop-shadow-sm">{item.description}</p>
+                      <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Learn More
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
             
             {/* Gallery Controls */}
-            <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2">
+            <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-3">
               {galleryItems.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    index === currentSlide ? 'bg-white' : 'bg-white bg-opacity-50'
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-white w-8' 
+                      : 'bg-white/50 hover:bg-white/80'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -138,26 +163,34 @@ export default function Home() {
             </div>
             <button 
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white w-10 h-10 rounded-full flex items-center justify-center"
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 hover:scale-110"
               aria-label="Previous slide"
             >
-              &lt;
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </button>
             <button 
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 hover:bg-opacity-50 text-white w-10 h-10 rounded-full flex items-center justify-center"
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 hover:scale-110"
               aria-label="Next slide"
             >
-              &gt;
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Cultivate With Confidence</h2>
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">Cultivate With Confidence</h2>
+            <div className="w-24 h-1 bg-green-500 mx-auto"></div>
+            <p className="text-xl text-gray-600 mt-6 max-w-3xl mx-auto">Everything you need to grow beautiful, healthy plants - all in one place.</p>
+          </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
@@ -172,15 +205,15 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-green-600 text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your Cultivation Journey?</h2>
-          <p className="text-xl mb-8">Join thousands of gardeners who are growing healthier, more productive plants.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-green-700 px-8 py-3 rounded-lg font-medium text-lg hover:bg-gray-100">
+      <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-500 text-white">
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+          <h2 className="text-4xl font-bold mb-4">Ready to Start Your Cultivation Journey?</h2>
+          <p className="text-xl mb-10 max-w-3xl mx-auto">Join thousands of gardeners who are growing healthier, more productive plants with Agro's intelligent gardening companion.</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <button className="bg-white text-green-700 px-10 py-4 rounded-full font-medium text-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
               Start For Free
             </button>
-            <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-medium text-lg hover:bg-white hover:bg-opacity-10">
+            <button className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-medium text-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
               Watch Demo
             </button>
           </div>
